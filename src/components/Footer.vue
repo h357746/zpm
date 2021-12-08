@@ -1,0 +1,39 @@
+<template>
+<el-row>
+  <el-col :span="24"><div class="grid-content bg-purple-dark"><p>技术支持：浙江超威动力能源有限公司</p></div></el-col>
+</el-row>
+
+</template>
+
+<script>
+export default {
+  name: 'Footer'
+}
+</script>
+
+<style lang="scss" scoped>
+  .el-row {
+    width: 100%;
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #ffffff;
+  }
+
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+    line-height: 40px;
+    font-size: 16px;
+  }
+
+</style>
