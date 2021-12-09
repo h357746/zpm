@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { post } from '../utils/requset'
+// import { post } from '../utils/requset'
 import ChangePwd from '../components/ChangePwd.vue'
 export default {
   name: 'Logon',
@@ -72,15 +72,17 @@ export default {
       this.$store.commit('visibleDialog')
     },
     login () {
-      const getLogin = async () => {
-        const result = await post('http://localhost:8081/api/login/user', { username: this.username, password: this.password })
-        console.log(result)
-        if (result.success) {
-          this.$store.commit('setLoginState', result.success)
-          this.$router.push({ name: 'Home' })
-        }
-      }
-      getLogin()
+      localStorage.isLogin = true
+      this.$router.push({ name: 'Home' })
+      // const getLogin = async () => {
+      //   const result = await post('http://localhost:8081/api/login/user', { username: this.username, password: this.password })
+      //   console.log(result)
+      //   if (result.success) {
+      //     this.$store.commit('setLoginState', result.success)
+      //     this.$router.push({ name: 'Home' })
+      //   }
+      // }
+      // getLogin()
     }
   }
 }

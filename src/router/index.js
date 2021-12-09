@@ -88,13 +88,13 @@ const router = new VueRouter({
   routes
 })
 
-// router.beforeEach((to, from, next) => {
-//   const isLogin = store.state.loginState
-//   if (isLogin || to.name === 'Login' || to.name === 'Register') {
-//     next()
-//   } else {
-//     next({ name: 'Login' })
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  const isLogin = localStorage.isLogin
+  if (isLogin || to.name === 'Login' || to.name === 'Register') {
+    next()
+  } else {
+    next({ name: 'Login' })
+  }
+})
 
 export default router
