@@ -1,173 +1,89 @@
 <template>
-  <el-container>
-    <el-main>
-      <div class="title">
-        <p>浙品码信息管理系统</p>
-        <p>企业注册</p>
-      </div>
-
-      <el-card class="box-card">
-        <div class="register">
-          <el-form ref="form" :model="register" label-width="100px">
-            <el-form-item label="用户名：">
-              <div class="rest-input">
-                <el-input
-                  v-model="register.userId"
-                  placeholder="请输入用户名(企业用户为统一社会信用代码)"
-                ></el-input>
-              </div>
-            </el-form-item>
-            <el-form-item label="企业名称：">
-              <div class="rest-input">
-                <el-input
-                  v-model="register.companyName"
-                  placeholder="请输入企业名称"
-                ></el-input>
-              </div>
-            </el-form-item>
-            <el-form-item label="企业类型：">
-              <el-select v-model="register.companyType" placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="行政区划：">
-              <div class="rest-input">
-                <el-input
-                  v-model="register.administrativeArea"
-                  placeholder="请输入行政区划"
-                ></el-input>
-              </div>
-            </el-form-item>
-            <el-form-item label="联系人：">
-              <div class="rest-input">
-                <el-input v-model="register.contact" placeholder="请输入联系人"></el-input>
-              </div>
-            </el-form-item>
-            <el-form-item label="手机号：">
-              <div class="rest-input">
-                <el-input v-model="register.contactPhone" placeholder="请输入手机号"></el-input>
-              </div>
-            </el-form-item>
-            <el-form-item label="密码：">
-              <div class="rest-input">
-                <el-input
-                  v-model="register.password"
-                  type="password"
-                  placeholder="请输入密码："
-                ></el-input>
-              </div>
-            </el-form-item>
-            <el-form-item label="确认密码：">
-              <div class="rest-input">
-                <el-input
-                  v-model="register.password2"
-                  type="password"
-                  placeholder="请确认密码"
-                ></el-input>
-              </div>
-            </el-form-item>
-          </el-form>
-          <el-button>注册</el-button>
-           <div class="regist">已有账号？<router-link :to="{name: 'Login'}">立即登录</router-link></div>
-        </div>
-      </el-card>
-    </el-main>
-    <el-footer>技术支持：浙江省超威动力能源有限公司</el-footer>
-  </el-container>
+  <div id="app">
+<el-card class="login-card">
+  <p class="title">用户登录</p>
+<el-form :model="loginForm" ref="loginForm" :rules="loginRules" style="margin-top:30px">
+  <el-form-item  prop="mobile">
+    <el-input v-model="loginForm.mobile" type="text" placeholder="请输入您的手机号" />
+  </el-form-item>
+  <el-form-item prop="password">
+    <el-input v-model="loginForm.password" type="password" placeholder="请输入您的密码" />
+  </el-form-item>
+    <el-form-item prop="smscode">
+    <el-input v-model="loginForm.smscode" type="text" placeholder="请输入验证码" />
+  </el-form-item>
+  <el-form-item>
+   <el-button type="primary" @click="submit" style="width:100%">登录</el-button>
+  </el-form-item>
+</el-form>
+</el-card>
+  </div>
 </template>
+
 <script>
 export default {
   name: 'Register',
   data () {
+    const checkcode = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('验证码不能为空'))
+      } else if (value.charAt(3) !== '9') {
+        return callback(new Error('验证码错误'))
+      } else {
+        callback()
+      }
+    }
     return {
-      register: {
-        userId: '', // 用户名
-        companyName: '', // 企业名称
-        companyType: '', // 企业类型
-        administrativeArea: '', // 行政规划
-        contact: '', // 联系人
-        contactPhone: '', // 手机号
-        password: '', // 密码
-        password2: '' // 确认密码
+      loginForm: {
+        mobile: '',
+        password: '',
+        smscode: ''
       },
-      options: [
-        {
-          value: '1',
-          label: '电动车/电池生产企业'
-        },
-        {
-          value: '2',
-          label: '电动车生产企业'
-        },
-        {
-          value: '3',
-          label: '电池生产企业'
-        },
-        {
-          value: '4',
-          label: '其他生产企业'
+      loginRules: {
+        mobile: [
+          { required: true, message: '手机号码不能为空', trigger: 'blur' },
+          { min: 11, max: 11, message: '手机号长度为11个字符', trigger: 'blur' },
+          { pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '密码不能为空', trigger: 'blur' },
+          { min: 6, max: 16, message: '密码长度为6到16个字符', trigger: 'blur' }
+        ],
+        smscode: [{ validator: checkcode, trigger: 'blur' }]
+      }
+    }
+  },
+  methods: {
+    submit (formName) {
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          alert('表单验证通过')
+        } else {
+          alert('表单验证未通过')
         }
-      ],
-      value: ''
+      })
     }
   }
 }
 </script>
-<style lang="scss" scoped>
-.el-footer {
-  background-color: #225e9d;
-  color: #333;
-  text-align: center;
-  line-height: 60px;
-  height: 200px;
-}
-
-.el-main {
-  background-color: #69adee;
-  color: #333;
-  text-align: center;
-  line-height: 20px;
-  height: 800px;
+<style lang="scss">
+#app{
+  width:100%;
+  height:100vh;
+  background-color: pink;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  .title {
-    color: rgb(255, 255, 255);
+}
+.login-card{
+  width: 440px;
+  height: 370px;
+  .title{
+    margin: 0;
+    padding: 0;
+    text-align: center;
     font-size: 20px;
+    font-weight: bold;
   }
-}
-
-body > .el-container {
-  margin-bottom: 40px;
-}
-.box-card {
-  width: 700px;
-  height: 600px;
-  background-color: rgba(0, 0, 0, 0.1);
-  text-align: center;
-  .register {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    .rest-input {
-      display: flex;
-      width: 100%;
-      text-align: center;
-    }
-  }
-  .el-button {
-    width: 428px;
-  }
-}
-.el-form-item{
-    width: 600px;
 }
 </style>

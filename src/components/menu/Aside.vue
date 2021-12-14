@@ -1,44 +1,36 @@
 <template>
   <div class="menu">
 
-<el-menu default-active="/" :router="true" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse" background-color="#212a4d" text-color="#fff">
-  <el-submenu index="/dclist">
+<el-menu default-active="/" :router="true" class="el-menu-vertical-demo" :collapse-transition="true" :collapse="isCollapse" background-color="#212a4d" text-color="#fff">
+  <el-submenu :index="item.id" v-for="item in routerPath" :key="item.id">
     <template slot="title">
-      <i class="el-icon-s-grid"></i>
-      <span slot="title">电动自行车赋码管理</span>
+      <i :class="item.icon"></i>
+      <span slot="title" style="font-size:13px">{{item.name}}</span>
     </template>
     <el-menu-item-group>
-      <el-menu-item index="/carlist">电动自行车信息管理</el-menu-item>
-      <el-menu-item index="/carcodelist">浙品码（车）管理</el-menu-item>
-       <el-menu-item index="/dclist">电池信息管理</el-menu-item>
-      <el-menu-item index="/dccodelist">浙品码（电池）管理</el-menu-item>
-       <el-menu-item index="/Annexlist">电动自行车附件管理</el-menu-item>
-      <el-menu-item index="/AnnexDcList">电池附件管理</el-menu-item>
-    </el-menu-item-group>
-  </el-submenu>
- <el-submenu index="2">
-    <template slot="title">
-      <i class="el-icon-truck"></i>
-      <span slot="title">产品信息管理</span>
-    </template>
-    <el-menu-item-group>
-      <el-menu-item index="/ProductInfo">产品信息管理</el-menu-item>
-      <el-menu-item index="/Qualified">产品合格管理</el-menu-item>
-       <el-menu-item index="/GenerateZPM">生成浙品码</el-menu-item>
-      <el-menu-item index="/AddSpFiles">赋码情况反馈</el-menu-item>
-
+      <el-menu-item :index="i.url" v-for="i in item.children" :key="i.id">{{i.name}}</el-menu-item>
     </el-menu-item-group>
   </el-submenu>
 </el-menu>
+
   </div>
 </template>
 
 <script>
+import { get } from '../../utils/requset'
 export default {
   data () {
     return {
-
+      routerPath: []
     }
+  },
+  mounted () {
+    const getMenu = async () => {
+      const result = await get('/api/menu')
+      console.log(result)
+      this.routerPath = result.menu
+    }
+    getMenu()
   },
   computed: {
     isCollapse () {
@@ -46,12 +38,7 @@ export default {
     }
   },
   methods: {
-    handleOpen (key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose (key, keyPath) {
-      console.log(key, keyPath)
-    }
+
   }
 }
 </script>
@@ -59,5 +46,7 @@ export default {
 .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
     min-height: 400px;
+    text-align: left;
+    float: left;
 }
 </style>
