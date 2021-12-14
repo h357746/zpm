@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import store from '../store/index'
-
+import { getUserToken } from '../utils/sessionStorage'
 Vue.use(VueRouter)
 
 const routes = [
@@ -99,7 +99,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const isLogin = localStorage.isLogin
+  const isLogin = getUserToken('userToken')
   if (isLogin || to.name === 'Login' || to.name === 'Register') {
     next()
   } else {

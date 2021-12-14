@@ -6,12 +6,12 @@
 
      <el-dropdown>
   <span class="el-dropdown-link">
-    超威电源集团有限公司长兴郎山分公司<i class="el-icon-arrow-down el-icon--right"></i>
+    {{userName}}<i class="el-icon-arrow-down el-icon--right"></i>
   </span>
   <el-dropdown-menu slot="dropdown">
     <el-dropdown-item><router-link :to="{name: 'UserInfo'}">企业信息</router-link></el-dropdown-item>
     <el-dropdown-item>修改密码</el-dropdown-item>
-    <el-dropdown-item>退出登录</el-dropdown-item>
+    <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
 
   </el-dropdown-menu>
 </el-dropdown>
@@ -22,11 +22,16 @@
 </template>
 
 <script>
+import { getUserToken, clearUserToken } from '../utils/sessionStorage'
 export default {
   name: 'Header',
   data () {
     return {
+      userName: ''
     }
+  },
+  mounted () {
+    this.userName = getUserToken('userName')
   },
   computed: {
     isCollapse () {
@@ -36,6 +41,9 @@ export default {
   methods: {
     emitCollapse () {
       this.$store.commit('changeCollapse')
+    },
+    logout () {
+      clearUserToken()
     }
   }
 }

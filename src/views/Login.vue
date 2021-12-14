@@ -56,8 +56,9 @@
 </template>
 
 <script>
-// import { post } from '../utils/requset'
+import { post } from '../utils/requset'
 import ChangePwd from '../components/ChangePwd.vue'
+import { setUserToken } from '../utils/sessionStorage'
 export default {
   name: 'Logon',
   components: { ChangePwd },
@@ -72,17 +73,17 @@ export default {
       this.$store.commit('visibleDialog')
     },
     login () {
-      localStorage.isLogin = true
-      this.$router.push({ name: 'Home' })
-      // const getLogin = async () => {
-      //   const result = await post('http://localhost:8081/api/login/user', { username: this.username, password: this.password })
-      //   console.log(result)
-      //   if (result.success) {
-      //     this.$store.commit('setLoginState', result.success)
-      //     this.$router.push({ name: 'Home' })
-      //   }
-      // }
-      // getLogin()
+      const getLogin = async () => {
+        const result = await post('/api/login', { username: this.username, password: this.password })
+        console.log(result)
+        if (result.type === 'success') {
+          this.$store.commit('setLoginState', result.data.token)
+          setUserToken('userToken', result.data.token)
+          setUserToken('userName', result.data.userName)
+          this.$router.push({ name: 'Home' })
+        }
+      }
+      getLogin()
     }
   }
 }

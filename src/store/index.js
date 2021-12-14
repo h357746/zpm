@@ -9,7 +9,7 @@ export default new Vuex.Store({
     alSiderWidth: '200px',
     dialogVisible: false,
     dialogDcCode: false,
-    loginState: false
+    loginState: ''
   },
   mutations: {
     changeCollapse (state) {
@@ -24,8 +24,8 @@ export default new Vuex.Store({
     visibledialogDcCode (state) {
       state.dialogDcCode = !state.dialogDcCode
     },
-    setLoginState (state, falg) {
-      state.loginState = falg
+    setLoginState (state, token) {
+      state.loginState = token
     }
   },
   actions: {

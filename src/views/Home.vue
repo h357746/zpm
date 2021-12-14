@@ -52,12 +52,11 @@ export default {
 .el-aside {
   background-color: #212a4d;
   color: #333;
-  width: 200px;
   text-align: center;
   line-height: 200px;
   min-height: 800px;
   overflow: hidden;
-   transition:width 0.6s;
+  transition:width 0.6s;
 }
 
 .el-main {

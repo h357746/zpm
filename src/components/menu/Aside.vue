@@ -44,7 +44,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 200px;
     min-height: 400px;
     text-align: left;
     float: left;
