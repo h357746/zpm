@@ -7,30 +7,41 @@
       :before-close="visibleDialog"
       center
     >
-      <div class="rest-pwd">
-        <el-form ref="form" :model="restPwd" label-width="80px">
-          <el-form-item label="用户名：">
-            <div class="rest-input">
-              <el-input
-                v-model="restPwd.userId"
-                placeholder="请输入用户名(企业用户为统一社会信用代码)"
-              ></el-input>
-            </div>
-          </el-form-item>
-          <el-form-item label="手机号：">
-            <div class="rest-input">
-              <el-input v-model="restPwd.contact" placeholder="请输入手机号"></el-input
-              ><el-button>获取验证码</el-button>
-            </div>
-          </el-form-item>
-          <el-form-item label="验证码：">
-            <div class="rest-input">
-              <el-input v-model="restPwd.smsCode" placeholder="请输入验证码"></el-input>
-            </div>
-          </el-form-item>
-        </el-form>
-        <el-button @click="visibleDialog">密码重置</el-button>
-      </div>
+    <el-card class="login-card">
+      <el-form
+        :model="RegisterForm"
+        ref="RegisterForm"
+        :rules="RegisterRules"
+        style="margin-top: 30px"
+      >
+        <el-form-item prop="mobile">
+          <el-input
+            v-model="RegisterForm.mobile"
+            type="text"
+            placeholder="请输入您的手机号"
+          />
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input
+            v-model="RegisterForm.password"
+            type="password"
+            placeholder="请输入您的密码"
+          />
+        </el-form-item>
+        <el-form-item prop="smscode">
+          <el-input
+            v-model="RegisterForm.smscode"
+            type="text"
+            placeholder="请输入验证码"
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="visibleDialog" style="width: 100%"
+            >重置密码</el-button
+          >
+        </el-form-item>
+      </el-form>
+    </el-card>
     </el-dialog>
   </div>
 </template>
@@ -39,10 +50,10 @@
 export default {
   data () {
     return {
-      restPwd: {
-        userId: '',
-        contact: '',
-        smsCode: ''
+      RegisterForm: {
+        mobile: '',
+        password: '',
+        smscode: ''
       }
     }
   },
@@ -60,13 +71,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.rest-pwd {
-  width: 80%;
-  text-align: center;
-  .rest-input {
-    display: flex;
-    width: 100%;
-    text-align: center;
-  }
-}
 </style>

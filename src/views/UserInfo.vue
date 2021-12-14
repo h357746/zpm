@@ -62,6 +62,7 @@
           </el-form>
         </el-form>
       </div>
+      <el-button type="primary" style="width:25%">保存</el-button>
     </el-card>
   </div>
 </template>

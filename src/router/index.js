@@ -1,3 +1,4 @@
+import nprogress from 'nprogress'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import store from '../store/index'
@@ -100,11 +101,19 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const isLogin = getUserToken('userToken')
-  if (isLogin || to.name === 'Login' || to.name === 'Register') {
+  if (isLogin && to.name !== 'Login' && to.name !== 'Register') {
+    nprogress.start()
+    next()
+  } else if (to.name === 'Login' || to.name === 'Register') {
+    nprogress.start()
     next()
   } else {
+    nprogress.start()
     next({ name: 'Login' })
   }
+})
+router.afterEach(() => {
+  nprogress.done()
 })
 
 export default router

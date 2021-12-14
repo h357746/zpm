@@ -80,6 +80,10 @@ export default {
           this.$store.commit('setLoginState', result.data.token)
           setUserToken('userToken', result.data.token)
           setUserToken('userName', result.data.userName)
+          this.$message({
+            message: '登录成功！',
+            type: 'success'
+          })
           this.$router.push({ name: 'Home' })
         }
       }
