@@ -5,6 +5,11 @@ import VueRouter from 'vue-router'
 import { getUserToken } from '../utils/sessionStorage'
 Vue.use(VueRouter)
 
+const beforeRouteEnter = (to, from, next) => {
+  const isLogin = getUserToken('userToken')
+  if (isLogin) next({ name: 'Home' })
+  else (next())
+}
 const routes = [
   {
     path: '/home',
@@ -85,12 +90,14 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import(/* webpackChunkName: "Login" */ '../views/Login.vue')
+    component: () => import(/* webpackChunkName: "Login" */ '../views/Login.vue'),
+    beforeRouteEnter: beforeRouteEnter
   },
   {
     path: '/register',
     name: 'Register',
-    component: () => import(/* webpackChunkName: "Register" */ '../views/Register.vue')
+    component: () => import(/* webpackChunkName: "Register" */ '../views/Register.vue'),
+    beforeRouteEnter: beforeRouteEnter
   }
 
 ]
@@ -101,15 +108,21 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const isLogin = getUserToken('userToken')
-  if (isLogin && to.name !== 'Login' && to.name !== 'Register') {
-    nprogress.start()
-    next()
-  } else if (to.name === 'Login' || to.name === 'Register') {
-    nprogress.start()
-    next()
+  console.log(isLogin)
+  if (isLogin) {
+    if (to.name === 'Login' || to.name === 'Register') {
+      next('/home')
+    } else {
+      nprogress.start()
+      next()
+    }
   } else {
-    nprogress.start()
-    next({ name: 'Login' })
+    if (to.name === 'Login' || to.name === 'Register') {
+      nprogress.start()
+      next()
+    } else {
+      next('/login')
+    }
   }
 })
 router.afterEach(() => {

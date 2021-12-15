@@ -11,7 +11,6 @@
       <el-form
         :model="RegisterForm"
         ref="RegisterForm"
-        :rules="RegisterRules"
         style="margin-top: 30px"
       >
         <el-form-item prop="mobile">
