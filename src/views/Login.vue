@@ -59,6 +59,7 @@
 import { post } from '../utils/requset'
 import ChangePwd from '../components/ChangePwd.vue'
 import { setUserToken } from '../utils/sessionStorage'
+import { getSlideMenu } from '../router/premission'
 export default {
   name: 'Logon',
   components: { ChangePwd },
@@ -75,11 +76,11 @@ export default {
     login () {
       const getLogin = async () => {
         const result = await post('/api/login', { username: this.username, password: this.password })
-        console.log(result)
         if (result.type === 'success') {
           this.$store.commit('setLoginState', result.data.token)
           setUserToken('userToken', result.data.token)
           setUserToken('userName', result.data.userName)
+          await getSlideMenu()
           this.$message({
             message: '登录成功！',
             type: 'success'

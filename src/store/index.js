@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -9,7 +8,13 @@ export default new Vuex.Store({
     alSiderWidth: '200px',
     dialogVisible: false,
     dialogDcCode: false,
-    loginState: ''
+    loginState: '',
+    menu: []
+  },
+  getters: {
+    menu: state => {
+      return state.menu
+    }
   },
   mutations: {
     changeCollapse (state) {
@@ -26,9 +31,13 @@ export default new Vuex.Store({
     },
     setLoginState (state, token) {
       state.loginState = token
+    },
+    setMenu (state, menu) {
+      state.menu = menu
     }
   },
   actions: {
+
   },
   modules: {
   }

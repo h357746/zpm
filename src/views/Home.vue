@@ -17,6 +17,7 @@
 import Aside from '../components/menu/Aside.vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
+import { generateRouter } from '../router/premission'
 export default {
   name: 'Home',
   components: { Aside, Header, Footer },
@@ -24,6 +25,10 @@ export default {
     return {
     }
   },
+  created () {
+    generateRouter()
+  },
+
   computed: {
     alSiderWidth () {
       return this.$store.state.alSiderWidth
